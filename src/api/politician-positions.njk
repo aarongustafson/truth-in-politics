@@ -1,0 +1,31 @@
+---
+permalink: "/api/politician/{{ politician.id }}/positions.json"
+pagination:
+  data: politicians
+  size: 1
+  alias: politician
+---
+{%- set positions = politician.positions or [] -%}
+{
+  "politician_id": "{{ politician.id }}",
+  "politician_name": "{{ politician.name }}",
+  "positions": [
+    {%- for position in positions -%}
+    {
+      "topic_id": {{ position.topic_id }},
+      "topic_name": "{{ position.topic_name }}",
+      "topic_display": "{{ position.topic_display }}",
+      "position_summary": "{{ position.position_summary | replace('"', '\\"') }}",
+      "position_details": "{{ position.position_details | replace('"', '\\"') | truncate(500) }}",
+      "stance": "{{ position.stance or 'neutral' }}",
+      "strength": "{{ position.strength or 'moderate' }}",
+      "confidence_score": {{ position.confidence_score or 0.5 }},
+      "is_key_issue": {{ position.is_key_issue or false }},
+      "key_phrases": "{{ position.key_phrases | replace('"', '\\"') }}",
+      "source_url": "{{ position.source_url }}",
+      "source_section": "{{ position.source_section }}",
+      "last_updated": "{{ position.last_updated }}"
+    }{%- if not loop.last -%},{%- endif -%}
+    {%- endfor -%}
+  ]
+}

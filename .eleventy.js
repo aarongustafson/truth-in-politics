@@ -52,6 +52,10 @@ module.exports = function(eleventyConfig) {
       .replace(/^-|-$/g, '');
   });
 
+  eleventyConfig.addFilter('jsonEscape', function(obj) {
+    return JSON.stringify(obj).replace(/'/g, "\\'");
+  });
+
   // Watch targets
   eleventyConfig.addWatchTarget('./src/css/');
   eleventyConfig.addWatchTarget('./src/js/');

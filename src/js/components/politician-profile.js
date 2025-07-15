@@ -13,10 +13,18 @@ class PoliticianProfile extends HTMLElement {
 
   async loadPoliticianData() {
     try {
-      // Get politician from session storage or URL
-      const stored = sessionStorage.getItem('currentPolitician');
-      if (stored) {
-        this.politician = JSON.parse(stored);
+      // Try to get politician data from the data attribute first
+      const dataAttr = this.getAttribute('data-politician-data');
+      if (dataAttr) {
+        this.politician = JSON.parse(dataAttr);
+      }
+
+      if (!this.politician) {
+        // Fallback to getting from API or session storage
+        const stored = sessionStorage.getItem('currentPolitician');
+        if (stored) {
+          this.politician = JSON.parse(stored);
+        }
       }
 
       if (!this.politician) {
@@ -27,7 +35,7 @@ class PoliticianProfile extends HTMLElement {
       }
 
       if (this.politician) {
-        await this.loadProfileData();
+        this.processPositionsData();
         this.render();
       } else {
         this.renderError('Politician not found');
@@ -38,108 +46,42 @@ class PoliticianProfile extends HTMLElement {
     }
   }
 
-  async fetchPoliticianBySlug(slug) {
-    // Mock implementation - in real app, this would be an API call
-    const mockPoliticians = {
-      'alexandria-ocasio-cortez': {
-        id: 'aoc',
-        name: 'Alexandria Ocasio-Cortez',
-        party: 'Democratic',
-        state: 'NY',
-        chamber: 'House',
-        district: '14th District',
-        title: 'Representative'
-      },
-      'ted-cruz': {
-        id: 'ted-cruz',
-        name: 'Ted Cruz',
-        party: 'Republican',
-        state: 'TX',
-        chamber: 'Senate',
-        title: 'Senator'
-      }
-    };
-
-    return mockPoliticians[slug] || null;
-  }
-
-  async loadProfileData() {
-    // Mock profile data - in real implementation, this would fetch comprehensive data
+  processPositionsData() {
+    // Convert positions data to the format expected by the component
     this.profileData = {
       biography: {
-        birthDate: '1989-10-13',
-        education: 'Boston University (BA, Economics), Boston University (International Relations)',
-        previousOccupation: 'Bartender, Community Organizer',
-        firstElected: '2018',
-        website: 'https://ocasio-cortez.house.gov'
+        firstElected: this.politician.first_elected || 'Unknown',
+        website: this.politician.website || ''
       },
-      policyPositions: [
-        {
-          category: 'Climate Change',
-          alignmentScore: 92,
-          statedPosition: 'Supports the Green New Deal and aggressive action on climate change',
-          publicStatements: [
-            {
-              text: 'Climate change is the single biggest national security threat for our generation.',
-              source: 'CNN Interview',
-              date: '2023-09-15',
-              url: '#'
-            }
-          ],
-          votingRecord: [
-            {
-              bill: 'Inflation Reduction Act (Climate Provisions)',
-              vote: 'Yes',
-              date: '2022-08-12',
-              description: 'Major climate investment package'
-            }
-          ]
-        },
-        {
-          category: 'Healthcare',
-          alignmentScore: 88,
-          statedPosition: 'Supports Medicare for All universal healthcare system',
-          publicStatements: [
-            {
-              text: 'Healthcare is a human right, not a privilege based on income.',
-              source: 'Town Hall Meeting',
-              date: '2023-07-22',
-              url: '#'
-            }
-          ],
-          votingRecord: [
-            {
-              bill: 'Lower Drug Costs Now Act',
-              vote: 'Yes',
-              date: '2023-03-15',
-              description: 'Allow Medicare to negotiate prescription drug prices'
-            }
-          ]
-        },
-        {
-          category: 'Economic Policy',
-          alignmentScore: 85,
-          statedPosition: 'Supports progressive taxation and increased minimum wage',
-          publicStatements: [
-            {
-              text: 'No one should work 40 hours a week and still need government assistance to survive.',
-              source: 'Committee Hearing',
-              date: '2023-11-08',
-              url: '#'
-            }
-          ],
-          votingRecord: [
-            {
-              bill: 'Raise the Wage Act',
-              vote: 'Yes',
-              date: '2023-05-10',
-              description: 'Increase federal minimum wage to $15/hour'
-            }
-          ]
-        }
-      ],
-      overallAlignment: 88
+      policyPositions: (this.politician.positions || []).map(position => ({
+        category: position.topic_display || position.topic_name,
+        stance: position.stance || 'neutral',
+        strength: position.strength || 'moderate',
+        statedPosition: position.position_summary || 'No position available',
+        positionDetails: position.position_details,
+        keyPhrases: position.key_phrases,
+        confidenceScore: Math.round((position.confidence_score || 0.5) * 100),
+        isKeyIssue: position.is_key_issue,
+        sourceUrl: position.source_url,
+        sourceSection: position.source_section,
+        lastUpdated: position.last_updated
+      })),
+      overallAlignment: this.calculateOverallAlignment()
     };
+  }
+
+  calculateOverallAlignment() {
+    const positions = this.profileData.policyPositions;
+    if (positions.length === 0) return 0;
+    
+    const totalConfidence = positions.reduce((sum, pos) => sum + pos.confidenceScore, 0);
+    return Math.round(totalConfidence / positions.length);
+  }
+
+  async fetchPoliticianBySlug(slug) {
+    // This would fetch from the API in a real implementation
+    // For now, return null and rely on the data attribute
+    return null;
   }
 
   render() {
@@ -161,38 +103,35 @@ class PoliticianProfile extends HTMLElement {
         <main class="politician-content" id="main">
           <div class="container">
             <section class="overview-section" aria-labelledby="overview-heading">
-              <h2 id="overview-heading">Overview</h2>
+              <h2 id="overview-heading">Policy Position Overview</h2>
               <div class="overview-grid">
                 <div class="overview-card">
-                  <h3>Overall Alignment Score</h3>
-                  <div class="alignment-score alignment-score--${this.getScoreClass(this.profileData.overallAlignment)}">
+                  <h3>Policy Positions Found</h3>
+                  <div class="stat-number stat-number--${this.profileData.policyPositions.length > 0 ? 'success' : 'warning'}">
+                    ${this.profileData.policyPositions.length}
+                  </div>
+                  <p>Identified policy topics with stated positions</p>
+                </div>
+                
+                <div class="overview-card">
+                  <h3>Average Confidence</h3>
+                  <div class="stat-number stat-number--${this.getScoreClass(this.profileData.overallAlignment)}">
                     ${this.profileData.overallAlignment}%
                   </div>
-                  <p>How closely their actions align with their stated positions</p>
+                  <p>Confidence in position extraction accuracy</p>
                 </div>
                 
                 <div class="overview-card">
-                  <h3>Policy Areas Analyzed</h3>
-                  <div class="stat-number">${this.profileData.policyPositions.length}</div>
-                  <p>Major policy categories reviewed</p>
-                </div>
-                
-                <div class="overview-card">
-                  <h3>First Elected</h3>
-                  <div class="stat-number">${this.profileData.biography.firstElected}</div>
-                  <p>Years in current office: ${new Date().getFullYear() - parseInt(this.profileData.biography.firstElected)}</p>
+                  <h3>Key Issues</h3>
+                  <div class="stat-number stat-number--info">
+                    ${this.profileData.policyPositions.filter(p => p.isKeyIssue).length}
+                  </div>
+                  <p>High-priority policy positions identified</p>
                 </div>
               </div>
             </section>
 
-            <section class="policy-analysis" aria-labelledby="policy-heading">
-              <h2 id="policy-heading">Policy Position Analysis</h2>
-              <p class="section-description">
-                Compare stated positions with public statements and voting records across major policy areas.
-              </p>
-              
-              ${this.renderPolicyPositions()}
-            </section>
+            ${this.profileData.policyPositions.length > 0 ? this.renderPolicyPositions() : this.renderNoPositions()}
           </div>
         </main>
       </div>
@@ -201,73 +140,89 @@ class PoliticianProfile extends HTMLElement {
     this.setupInteractions();
   }
 
-  renderPolicyPositions() {
-    return this.profileData.policyPositions.map(policy => `
-      <article class="policy-section" aria-labelledby="policy-${utils.slugify(policy.category)}">
-        <header class="policy-section__header">
-          <h3 id="policy-${utils.slugify(policy.category)}" class="policy-section__title">
-            ${utils.sanitizeHTML(policy.category)}
-          </h3>
-          <div class="policy-section__score">
-            Alignment Score: 
-            <span class="alignment-score alignment-score--${this.getScoreClass(policy.alignmentScore)}">
-              ${policy.alignmentScore}%
-            </span>
-          </div>
-        </header>
-        
-        <div class="policy-section__content">
-          <div class="policy-comparison-grid">
-            <div class="comparison-item">
-              <h4 class="comparison-item__header">Stated Position</h4>
-              <div class="comparison-item__content">
-                ${utils.sanitizeHTML(policy.statedPosition)}
-              </div>
-              <div class="comparison-item__source">
-                Source: Official website and campaign materials
-              </div>
-            </div>
-            
-            <div class="comparison-item">
-              <h4 class="comparison-item__header">Public Statements</h4>
-              <div class="comparison-item__content">
-                ${policy.publicStatements.map(statement => `
-                  <blockquote>
-                    "${utils.sanitizeHTML(statement.text)}"
-                    <footer>
-                      <cite>
-                        ${utils.sanitizeHTML(statement.source)} - 
-                        <time datetime="${statement.date}">${utils.formatDate(statement.date)}</time>
-                      </cite>
-                    </footer>
-                  </blockquote>
-                `).join('')}
-              </div>
-            </div>
-            
-            <div class="comparison-item">
-              <h4 class="comparison-item__header">Voting Record</h4>
-              <div class="comparison-item__content">
-                ${policy.votingRecord.map(vote => `
-                  <div class="vote-item">
-                    <strong>${utils.sanitizeHTML(vote.bill)}</strong><br>
-                    Vote: <span class="vote-${vote.vote.toLowerCase()}">${utils.sanitizeHTML(vote.vote)}</span><br>
-                    <small>${utils.sanitizeHTML(vote.description)}</small><br>
-                    <time datetime="${vote.date}">${utils.formatDate(vote.date)}</time>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          </div>
+  renderNoPositions() {
+    return `
+      <section class="no-positions-section" aria-labelledby="no-positions-heading">
+        <h2 id="no-positions-heading">Policy Positions</h2>
+        <div class="no-positions-message">
+          <h3>No policy positions found yet</h3>
+          <p>This politician's website hasn't been crawled for policy positions yet, or no clear positions were found on their website.</p>
+          <p>Policy positions are extracted from official websites, press releases, and public statements to provide transparency about where politicians stand on key issues.</p>
+          ${this.politician.website ? `
+            <p>Visit their official website: <a href="${utils.sanitizeHTML(this.politician.website)}" target="_blank" rel="noopener">${utils.sanitizeHTML(this.politician.website)}</a></p>
+          ` : ''}
         </div>
-      </article>
-    `).join('');
+      </section>
+    `;
+  }
+
+  renderPolicyPositions() {
+    return `
+      <section class="policy-analysis" aria-labelledby="policy-heading">
+        <h2 id="policy-heading">Policy Positions</h2>
+        <p class="section-description">
+          The following positions were extracted from official websites and public statements.
+        </p>
+        
+        ${this.profileData.policyPositions.map(policy => `
+          <article class="policy-section" aria-labelledby="policy-${utils.slugify(policy.category)}">
+            <header class="policy-section__header">
+              <h3 id="policy-${utils.slugify(policy.category)}" class="policy-section__title">
+                ${utils.sanitizeHTML(policy.category)}
+                ${policy.isKeyIssue ? '<span class="key-issue-badge">Key Issue</span>' : ''}
+              </h3>
+              <div class="policy-section__meta">
+                <span class="stance-indicator stance-indicator--${policy.stance}">
+                  ${utils.sanitizeHTML(policy.stance.charAt(0).toUpperCase() + policy.stance.slice(1))}
+                </span>
+                <span class="strength-indicator strength-indicator--${policy.strength}">
+                  ${utils.sanitizeHTML(policy.strength.charAt(0).toUpperCase() + policy.strength.slice(1))}
+                </span>
+                <span class="confidence-score confidence-score--${this.getScoreClass(policy.confidenceScore)}">
+                  ${policy.confidenceScore}% confidence
+                </span>
+              </div>
+            </header>
+            
+            <div class="policy-section__content">
+              <div class="position-summary">
+                <h4>Position Summary</h4>
+                <p>${utils.sanitizeHTML(policy.statedPosition)}</p>
+              </div>
+              
+              ${policy.keyPhrases ? `
+                <div class="key-phrases">
+                  <h4>Key Phrases</h4>
+                  <p class="key-phrases-text">"${utils.sanitizeHTML(policy.keyPhrases)}"</p>
+                </div>
+              ` : ''}
+              
+              <div class="source-info">
+                <h4>Source Information</h4>
+                <div class="source-details">
+                  ${policy.sourceUrl ? `
+                    <p><strong>Source URL:</strong> <a href="${utils.sanitizeHTML(policy.sourceUrl)}" target="_blank" rel="noopener">${utils.sanitizeHTML(policy.sourceUrl)}</a></p>
+                  ` : ''}
+                  ${policy.sourceSection ? `
+                    <p><strong>Section:</strong> ${utils.sanitizeHTML(policy.sourceSection)}</p>
+                  ` : ''}
+                  ${policy.lastUpdated ? `
+                    <p><strong>Last Updated:</strong> <time datetime="${policy.lastUpdated}">${utils.formatDate(policy.lastUpdated)}</time></p>
+                  ` : ''}
+                </div>
+              </div>
+            </div>
+          </article>
+        `).join('')}
+      </section>
+    `;
   }
 
   getScoreClass(score) {
     if (score >= 80) return 'high';
     if (score >= 60) return 'medium';
-    return 'low';
+    if (score >= 40) return 'low';
+    return 'very-low';
   }
 
   setupInteractions() {

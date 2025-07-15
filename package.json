@@ -24,7 +24,16 @@
 		"config:show": "node scripts/congress-data-config.js show",
 		"config:recent": "node scripts/congress-data-config.js set recent",
 		"config:historical": "node scripts/congress-data-config.js set historical",
-		"config:comprehensive": "node scripts/congress-data-config.js set comprehensive"
+		"config:comprehensive": "node scripts/congress-data-config.js set comprehensive",
+		"positions:crawl": "node scripts/policy-position-crawler.js",
+		"positions:crawl:test": "node scripts/policy-position-crawler.js --test",
+		"positions:analyze": "node scripts/policy-position-analyzer.js report",
+		"positions:search": "node scripts/policy-position-analyzer.js search",
+		"positions:export": "node scripts/policy-position-analyzer.js export",
+		"bills:map": "node scripts/bill-topic-mapper.js map",
+		"bills:analyze": "node scripts/bill-topic-mapper.js analyze",
+		"bills:report": "node scripts/bill-topic-mapper.js report",
+		"bills:full": "node scripts/bill-topic-mapper.js full"
 	},
 	"keywords": [
 		"politics",
@@ -42,8 +51,8 @@
 	},
 	"dependencies": {
 		"better-sqlite3": "^9.2.2",
-		"node-fetch": "^3.3.2",
 		"cheerio": "^1.0.0-rc.12",
-		"date-fns": "^3.0.6"
+		"date-fns": "^3.0.6",
+		"node-fetch": "^2.7.0"
 	}
 }
