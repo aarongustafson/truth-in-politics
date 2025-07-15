@@ -37,6 +37,13 @@ Thumbs.db
 .tmp/
 .cache/
 
+# Ignore backup and testing files
+*.backup
+*.bak
+test-*.js
+*-test.js
+*-fixed.js
+
 # Ignore coverage reports
 coverage/
 .nyc_output/
