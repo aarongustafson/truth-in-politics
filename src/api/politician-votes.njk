@@ -1,0 +1,23 @@
+---
+permalink: "/api/politician/{{ politician.slug }}/votes.json"
+layout: null
+pagination:
+  data: politicians
+  size: 1
+  alias: politician
+---
+{%- set politicianId = politician.id -%}
+{%- set recentVotes = voting.getRecentVotesForPolitician(politicianId, 20) -%}
+{%- set votingStats = voting.getVotingStatsForPolitician(politicianId) -%}
+{
+  "politician": {
+    "id": "{{ politician.id }}",
+    "name": "{{ politician.name | replace('"', '\\"') }}",
+    "party": "{{ politician.party }}",
+    "state": "{{ politician.state }}",
+    "chamber": "{{ politician.chamber }}"
+  },
+  "votingStats": {% if politician.votingStats %}{{ politician.votingStats | dump | safe }}{% else %}null{% endif %},
+  "recentVotes": {{ recentVotes | dump | safe }},
+  "lastUpdated": "{{ build.timestamp }}"
+}

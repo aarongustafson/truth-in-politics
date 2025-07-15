@@ -1,0 +1,23 @@
+{
+	"lastFullUpdate": "2025-07-14T23:56:26.000Z",
+	"lastIncrementalUpdate": "2025-07-14T23:56:26.000Z",
+	"updateFrequency": "daily",
+	"maxVotesPerUpdate": 100,
+	"enabledChambers": ["house", "senate"],
+	"buildIntegration": {
+		"autoUpdate": true,
+		"maxDataAge": 7,
+		"skipOnErrors": false,
+		"generateApiFiles": true
+	},
+	"apiSettings": {
+		"rateLimitDelay": 250,
+		"retryAttempts": 3,
+		"timeoutMs": 30000
+	},
+	"dataRetention": {
+		"keepVotesForDays": 730,
+		"archiveOldVotes": true,
+		"cleanupFrequency": "weekly"
+	}
+}

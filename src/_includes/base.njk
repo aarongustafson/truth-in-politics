@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if title %}{{ title }} | Truth in Politics{% else %}Truth in Politics{% endif %}</title>
+  
+  <!-- SEO and Social Meta -->
+  <meta name="description" content="{{ description or 'Compare U.S. politicians stated positions with their public statements and voting records' }}">
+  <meta name="author" content="Truth in Politics">
+  
+  <!-- Accessibility -->
+  <meta name="theme-color" content="#1e40af">
+  
+  <!-- Preload critical resources -->
+  <link rel="preload" href="/css/critical.css" as="style">
+  <link rel="preload" href="/js/app.js" as="script">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/critical.css">
+  <link rel="stylesheet" href="/css/main.css" media="print" onload="this.media='all'">
+  
+  <!-- Skip Link for Screen Readers -->
+  <style>
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 6px;
+      background: #000;
+      color: #fff;
+      padding: 8px;
+      text-decoration: none;
+      transition: top 0.3s;
+      z-index: 1000;
+    }
+    .skip-link:focus {
+      top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Skip Navigation Link -->
+  <a href="#main" class="skip-link">Skip to main content</a>
+  
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <div class="container">
+      <nav class="site-nav" role="navigation" aria-label="Main navigation">
+        <a href="/" class="site-logo" aria-label="Truth in Politics - Home">
+          <span class="logo-text">Truth in Politics</span>
+        </a>
+        
+        <ul class="nav-menu" role="menubar">
+          <li role="none">
+            <a href="/" role="menuitem" aria-current="{% if page.url == '/' %}page{% endif %}">Home</a>
+          </li>
+          <li role="none">
+            <a href="/about/" role="menuitem" aria-current="{% if page.url == '/about/' %}page{% endif %}">About</a>
+          </li>
+          <li role="none">
+            <a href="/methodology/" role="menuitem" aria-current="{% if page.url == '/methodology/' %}page{% endif %}">Methodology</a>
+          </li>
+        </ul>
+        
+        <!-- Mobile Menu Toggle -->
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu">
+          <span class="nav-toggle__line"></span>
+          <span class="nav-toggle__line"></span>
+          <span class="nav-toggle__line"></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  {{ content | safe }}
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3 class="footer-title">Truth in Politics</h3>
+          <p class="footer-description">
+            Promoting transparency and accountability in U.S. politics through fact-based analysis.
+          </p>
+        </div>
+        
+        <div class="footer-section">
+          <h4 class="footer-subtitle">Links</h4>
+          <ul class="footer-links">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/methodology/">Methodology</a></li>
+            <li><a href="/privacy/">Privacy Policy</a></li>
+            <li><a href="/contact/">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4 class="footer-subtitle">Data Sources</h4>
+          <ul class="footer-links">
+            <li><a href="https://www.congress.gov" target="_blank" rel="noopener noreferrer">Congress.gov</a></li>
+            <li><a href="https://www.govtrack.us" target="_blank" rel="noopener noreferrer">GovTrack</a></li>
+            <li>Reputable news outlets</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p class="footer-copyright">
+          © 2024 Truth in Politics. Built with accessibility and transparency in mind.
+        </p>
+        <p class="footer-disclaimer">
+          This is an independent, non-partisan project aimed at increasing political transparency.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/app.js" defer></script>
+  
+  <!-- Load web components -->
+  <script src="/js/components/politician-search.js" type="module"></script>
+  <script src="/js/components/politician-profile.js" type="module"></script>
+  <script src="/js/components/policy-comparison.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{
+	"name": "truth-in-politics",
+	"version": "1.0.0",
+	"description": "A platform to compare U.S. politicians' stated positions with their public statements and voting records",
+	"main": "index.js",
+	"scripts": {
+		"start": "eleventy --serve",
+		"build": "npm run data:update && eleventy",
+		"build:quick": "eleventy",
+		"clean": "rm -rf _site",
+		"dev": "eleventy --serve --watch",
+		"populate-congress": "node scripts/populate-congress.js",
+		"init-data": "node scripts/init-data.js",
+		"data:update": "node scripts/build-time-updater.js update",
+		"data:update:force": "node scripts/build-time-updater.js update --force",
+		"data:status": "node scripts/build-time-updater.js status",
+		"voting:fetch": "node scripts/voting-records-fetcher.js",
+		"voting:update": "node scripts/periodic-voting-updater.js update",
+		"voting:status": "node scripts/periodic-voting-updater.js status",
+		"voting:recent": "node scripts/voting-records-fetcher.js --start-date $(date -d '7 days ago' +%Y-%m-%d)",
+		"congress:comprehensive": "node scripts/comprehensive-congress-fetcher.js comprehensive",
+		"congress:historical": "node scripts/comprehensive-congress-fetcher.js historical-voting",
+		"congress:stats": "node scripts/comprehensive-congress-fetcher.js stats",
+		"config:show": "node scripts/congress-data-config.js show",
+		"config:recent": "node scripts/congress-data-config.js set recent",
+		"config:historical": "node scripts/congress-data-config.js set historical",
+		"config:comprehensive": "node scripts/congress-data-config.js set comprehensive"
+	},
+	"keywords": [
+		"politics",
+		"transparency",
+		"eleventy",
+		"static-site"
+	],
+	"author": "",
+	"license": "MIT",
+	"devDependencies": {
+		"@11ty/eleventy": "^2.0.1",
+		"@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
+		"markdown-it": "^14.0.0",
+		"markdown-it-anchor": "^8.6.7"
+	},
+	"dependencies": {
+		"better-sqlite3": "^9.2.2",
+		"node-fetch": "^3.3.2",
+		"cheerio": "^1.0.0-rc.12",
+		"date-fns": "^3.0.6"
+	}
+}

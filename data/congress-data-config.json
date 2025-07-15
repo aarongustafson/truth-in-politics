@@ -1,0 +1,38 @@
+{
+  "dataStrategy": "comprehensive",
+  "recent": {
+    "votingDays": 90,
+    "legislationDays": 180,
+    "maxVotesPerUpdate": 50,
+    "maxLegislationPerPolitician": 25
+  },
+  "historical": {
+    "votingStartDate": "2023-01-03",
+    "legislationStartDate": "2023-01-03",
+    "maxVotesPerUpdate": 500,
+    "maxLegislationPerPolitician": 100
+  },
+  "comprehensive": {
+    "includeVoting": true,
+    "includeLegislation": true,
+    "includeAlignment": true,
+    "votingStartDate": "2023-01-03",
+    "legislationStartDate": "2023-01-03",
+    "maxVotesPerUpdate": 1000,
+    "maxLegislationPerPolitician": 200,
+    "calculateAlignments": true
+  },
+  "rateLimit": {
+    "requestDelayMs": 250,
+    "batchSize": 20,
+    "batchDelayMs": 1000
+  },
+  "buildIntegration": {
+    "autoUpdate": true,
+    "updateOnBuild": true,
+    "skipOnErrors": false,
+    "dataMaxAge": 24
+  },
+  "lastUpdated": "2025-07-15T18:48:07.421Z",
+  "lastStrategy": "comprehensive"
+}

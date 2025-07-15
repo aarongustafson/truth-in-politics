@@ -1,0 +1,120 @@
+---
+layout: base.njk
+title: Truth in Politics
+description: Compare U.S. politicians' stated positions with their public statements and voting records
+---
+
+<main class="main-content" id="main">
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="container">
+      <h1 id="hero-heading" class="hero__title">Truth in Politics</h1>
+      <p class="hero__subtitle">
+        Compare what politicians say with what they do. Enter a politician's name to see how their stated positions align with their public statements and voting record.
+      </p>
+      
+      <politician-search class="search-section" aria-label="Politician search form">
+        <form class="search-form" role="search" aria-label="Search for a politician">
+          <div class="search-input-group">
+            <label for="politician-name" class="search-label">
+              Politician Name
+              <span class="required" aria-label="required">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="politician-name" 
+              name="politicianName"
+              class="search-input" 
+              placeholder="e.g., Alexandria Ocasio-Cortez, Ted Cruz"
+              required
+              aria-describedby="search-help"
+              autocomplete="off"
+            >
+            <div id="search-help" class="search-help">
+              Enter the full name of a current U.S. House Representative or Senator
+            </div>
+          </div>
+          
+          <button type="submit" class="search-button" aria-describedby="search-button-help">
+            <span class="search-button__text">Analyze Politician</span>
+            <span class="search-button__icon" aria-hidden="true">🔍</span>
+          </button>
+          <div id="search-button-help" class="sr-only">
+            This will search for the politician and analyze their positions
+          </div>
+        </form>
+        
+        <div class="search-results" aria-live="polite" aria-label="Search results"></div>
+      </politician-search>
+    </div>
+  </section>
+
+  <section class="features" aria-labelledby="features-heading">
+    <div class="container">
+      <h2 id="features-heading" class="features__title">How It Works</h2>
+      <div class="features__grid">
+        <article class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">🏛️</div>
+          <h3 class="feature-card__title">Find Politicians</h3>
+          <p class="feature-card__description">
+            Search current U.S. House and Senate members using our comprehensive database of elected officials.
+          </p>
+        </article>
+        
+        <article class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">📝</div>
+          <h3 class="feature-card__title">Analyze Positions</h3>
+          <p class="feature-card__description">
+            We scan official websites and campaign materials to identify stated policy positions.
+          </p>
+        </article>
+        
+        <article class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">📰</div>
+          <h3 class="feature-card__title">Check Public Record</h3>
+          <p class="feature-card__description">
+            Compare statements with public quotes from reputable news sources and official transcripts.
+          </p>
+        </article>
+        
+        <article class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">🗳️</div>
+          <h3 class="feature-card__title">Review Voting Record</h3>
+          <p class="feature-card__description">
+            See how their actual votes align with their stated positions on key issues.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" aria-labelledby="about-heading">
+    <div class="container">
+      <h2 id="about-heading" class="about__title">Our Mission</h2>
+      <p class="about__text">
+        Truth in Politics provides voters with objective, fact-based comparisons between what politicians say and what they do. 
+        We believe transparency in government starts with informed citizens.
+      </p>
+      
+      <details class="methodology">
+        <summary class="methodology__toggle">Our Methodology</summary>
+        <div class="methodology__content">
+          <h3>Data Sources</h3>
+          <ul>
+            <li>Official congressional websites and press releases</li>
+            <li>Verified statements from reputable news outlets</li>
+            <li>Official voting records from Congress.gov</li>
+            <li>Campaign websites and materials</li>
+          </ul>
+          
+          <h3>Analysis Process</h3>
+          <ol>
+            <li>Automated scanning of stated positions</li>
+            <li>Cross-referencing with public statements</li>
+            <li>Voting record correlation</li>
+            <li>Transparency scoring based on alignment</li>
+          </ol>
+        </div>
+      </details>
+    </div>
+  </section>
+</main>

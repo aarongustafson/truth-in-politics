@@ -1,0 +1,447 @@
+/* Main CSS - Non-critical styles */
+
+/* Features Section */
+.features {
+  padding: 4rem 0;
+  background-color: #f8fafc;
+}
+
+.features__title {
+  text-align: center;
+  margin-bottom: 3rem;
+  color: #1f2937;
+}
+
+.features__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.feature-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card__icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.feature-card__title {
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.feature-card__description {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* About Section */
+.about {
+  padding: 4rem 0;
+  background-color: white;
+}
+
+.about__title {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #1f2937;
+}
+
+.about__text {
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  text-align: center;
+  font-size: 1.125rem;
+  color: #4b5563;
+}
+
+/* Methodology */
+.methodology {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f8fafc;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.methodology__toggle {
+  background-color: #e5e7eb;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: #374151;
+  border: none;
+  width: 100%;
+  text-align: left;
+  transition: background-color 0.2s ease;
+}
+
+.methodology__toggle:hover {
+  background-color: #d1d5db;
+}
+
+.methodology__toggle::before {
+  content: "▶";
+  margin-right: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.methodology[open] .methodology__toggle::before {
+  transform: rotate(90deg);
+}
+
+.methodology__content {
+  padding: 1.5rem;
+}
+
+.methodology__content h3 {
+  color: #1f2937;
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+}
+
+.methodology__content h3:first-child {
+  margin-top: 0;
+}
+
+.methodology__content ul,
+.methodology__content ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.methodology__content li {
+  margin-bottom: 0.5rem;
+  color: #4b5563;
+}
+
+/* Search Results */
+.search-results {
+  margin-top: 1rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.search-results[data-loading="true"]::before {
+  content: "Searching...";
+  display: block;
+  padding: 1rem;
+  text-align: center;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.politician-result {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.politician-result:hover {
+  background-color: #f3f4f6;
+  border-color: #2563eb;
+  text-decoration: none;
+}
+
+.politician-result:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.politician-result__name {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.politician-result__details {
+  font-size: 0.875rem;
+  color: #6b7280;
+  display: block;
+}
+
+/* Politician Profile Page */
+.politician-profile {
+  padding: 2rem 0;
+}
+
+.politician-header {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  color: white;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.politician-header__name {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.politician-header__title {
+  font-size: 1.25rem;
+  opacity: 0.9;
+  margin-bottom: 0.5rem;
+}
+
+.politician-header__party {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* Policy Comparison */
+.policy-comparison {
+  padding: 2rem 0;
+}
+
+.policy-section {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.policy-section__header {
+  background-color: #f8fafc;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.policy-section__title {
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.policy-section__score {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.alignment-score {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.alignment-score--high {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.alignment-score--medium {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.alignment-score--low {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.policy-section__content {
+  padding: 1.5rem;
+}
+
+.policy-comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.comparison-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.comparison-item__header {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.comparison-item__content {
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.comparison-item__source {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* Footer */
+.site-footer {
+  background-color: #1f2937;
+  color: white;
+  padding: 3rem 0 1rem;
+  margin-top: 4rem;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer-title {
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.footer-subtitle {
+  color: #d1d5db;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.footer-description {
+  color: #9ca3af;
+  line-height: 1.6;
+}
+
+.footer-links {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+  color: #d1d5db;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  border-top: 1px solid #374151;
+  padding-top: 2rem;
+  text-align: center;
+}
+
+.footer-copyright,
+.footer-disclaimer {
+  color: #9ca3af;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .politician-header__name {
+    font-size: 2rem;
+  }
+  
+  .policy-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .features__grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .nav-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #1e40af;
+    flex-direction: column;
+    padding: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-menu.open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .nav-menu li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .nav-toggle[aria-expanded="true"] .nav-toggle__line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  
+  .nav-toggle[aria-expanded="true"] .nav-toggle__line:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .nav-toggle[aria-expanded="true"] .nav-toggle__line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+  }
+}
+
+/* Print Styles */
+@media print {
+  .site-header,
+  .site-footer,
+  .search-section {
+    display: none;
+  }
+  
+  .hero {
+    background: none;
+    color: black;
+  }
+  
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+  
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+  
+  .policy-section {
+    page-break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+}

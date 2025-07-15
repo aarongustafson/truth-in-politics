@@ -1,0 +1,20 @@
+---
+permalink: "/api/politicians.json"
+---
+{%- set politicianData = politicians -%}
+[
+  {%- for politician in politicianData -%}
+  {
+    "id": "{{ politician.id }}",
+    "name": "{{ politician.name }}",
+    "party": "{{ politician.party }}",
+    "state": "{{ politician.state }}",
+    "chamber": "{{ politician.chamber }}",
+    "district": "{{ politician.district or '' }}",
+    "title": "{{ politician.title }}",
+    "first_elected": {{ politician.first_elected or 'null' }},
+    "website": "{{ politician.website or '' }}",
+    "url": "/politician/{{ politician.id }}/"
+  }{%- if not loop.last -%},{%- endif -%}
+  {%- endfor -%}
+]
