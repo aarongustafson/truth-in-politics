@@ -44,6 +44,10 @@ test-*.js
 *-test.js
 *-fixed.js
 
+# Ignore data backup files
+data/*-backup.json
+data/last-build-*.txt
+
 # Ignore coverage reports
 coverage/
 .nyc_output/
